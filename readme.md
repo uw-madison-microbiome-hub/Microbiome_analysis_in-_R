@@ -202,6 +202,10 @@ mkdir Analysis
 qiime dada2 denoise-paired --i-demultiplexed-seqs demux/demux-paired-end.qza --p-trim-left-f 13 --p-trim-left-r 13 --p-trunc-len-f 150 --p-trunc-len-r 150 --p-n-threads 2 --o-table Analysis/table.qza --o-representative-sequences Analysis/rep-seqs.qza --o-denoising-stats Analysis/denoising-stats.qza
 ```
 
+```
+cp /mnt/software/workshop/data/qiime2/qiime2_tutorial/Analysis/*.qza Analysis/.
+```
+
 ### 3.1 Visualizing Denoise stats
 
 ```
