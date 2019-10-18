@@ -92,24 +92,24 @@ Then, we create the directory with mkdir
 
 Create a project folder
 
-`$ mkdir 080519_qiime2_tutorial`   
+`$ mkdir 102119_qiime2_tutorial`   
 We can verify that this directory exists by checking the content of our “Home” directory with the list command ls
 
 ```
 $ ls     
-080519_qiime2_tutorial   
+102119_qiime2_tutorial   
 ```
   
-Next, move into your  080519_qiime2_tutorial folder. This will be done with the change directory command cd into  080519_qiime2_tutorial:
+Next, move into your  102119_qiime2_tutorial folder. This will be done with the change directory command cd into  102119_qiime2_tutorial:
 
 Change directory
 
-`$ cd 080519_qiime2_tutorial`    
+`$ cd 102119_qiime2_tutorial`    
 We can check that this worked with the command print working directory pwd. For student01, this would look like:
 
 ```
 $ pwd    
-$ /home/BIOTECH/student01/080519_qiime2_tutorial    
+$ /home/BIOTECH/student01/102119_qiime2_tutorial    
 ```
 
 ## Data description
@@ -173,12 +173,6 @@ qiime demux summarize --i-data demux.qza --o-visualization demux.qzv
 It's assumed that the input is raw paired-end MiSeq data in demultiplexed FASTQ format located within a folder called raw_data. The filenames are expected to look like this: 105CHE6WT_S325_L001_R1_001.fastq.gz, where each field separated by an _ character corresponds to: (1) the sample name, (2) the sample# on the run, (3) the lane number, (4) the read number (R1 = forward, R2 = reverse), and (5) the set number. You may need to re-name your files to match this format; however, QIIME2 accepts many different input formats so the format and naming scheme you're using may also be supported.
 
 ```
-qiime tools export --input-path demux.qza --output-path demux
-
-mkdir demux/data
-
-mv demux/*.fastq.gz demux/data/.    
-
 qiime tools import --type 'SampleData[PairedEndSequencesWithQuality]' --input-path demux/data --input-format CasavaOneEightSingleLanePerSampleDirFmt --output-path demux/demux-paired-end.qza    
 
 qiime demux summarize --i-data demux/demux-paired-end.qza --o-visualization demux/demux-paired-end.qzv
@@ -327,13 +321,13 @@ The ASV/OTU phylogeny tree can be found in the phylogeny folder in the file rep_
 A key quality control step is to plot rarefaction curves for all of your samples to determine if you performed sufficient sequencing. The below command will generate these plots (X is a placeholder for the maximum depth in your dataset).
 
 ```
-qiime diversity alpha-rarefaction --i-table Analysis/filtered/table_filt.qza --p-max-depth 8037 --p-steps 20 --i-phylogeny Analysis/phylogeny/rep_seqs_filt_aligned_masked_tree_rooted.qza --m-metadata-file sample-metadata.tsv --o-visualization Analysis/rarefaction/rarefaction_curves.qzv
+qiime diversity alpha-rarefaction --i-table Analysis/filtered/table_filt.qza --p-max-depth X --p-steps 20 --i-phylogeny Analysis/phylogeny/rep_seqs_filt_aligned_masked_tree_rooted.qza --m-metadata-file sample-metadata.tsv --o-visualization Analysis/rarefaction/rarefaction_curves.qzv
 ```
 
 For some reason, the QIIME2 default in the above curves with the metadata file (which you can see in the visualization) is to not give you the option of seeing each sample's rarefaction curve individually (even though this is the default later on in stacked barplots!), only the "grouped" curves by each metadata type. As it can be quite important in data QC to see if you have inconsistent samples, we need to rerun the above command, but this time omitting the metadata file (use the same X for the maximum depth, as above).
 
 ```
-qiime diversity alpha-rarefaction --i-table Analysis/filtered/table_filt.qza --p-max-depth 8037 --p-steps 20 --i-phylogeny Analysis/phylogeny/rep_seqs_filt_aligned_masked_tree_rooted.qza --o-visualization Analysis/rarefaction/rarefaction_curves_each_curve.qzv
+qiime diversity alpha-rarefaction --i-table Analysis/filtered/table_filt.qza --p-max-depth X --p-steps 20 --i-phylogeny Analysis/phylogeny/rep_seqs_filt_aligned_masked_tree_rooted.qza --o-visualization Analysis/rarefaction/rarefaction_curves_each_curve.qzv
 ```
 
 ## 7. Assign taxonomy
