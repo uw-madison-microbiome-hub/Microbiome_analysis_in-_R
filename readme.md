@@ -21,10 +21,10 @@ Create a new R script (File->New file->R script) to save your code. This file wi
 
 Now your screen should look like this
 
-Upper left: Where you type and save the code you want to run.
-Upper right: Files you load into and create in R. To view one, click on it and it will open in the upper left pane.
-Lower left: The console. Where commands and outputs run (similar to the one mothur window).
-Lower right: Variable. Explore the different tabs.
+* Upper left: Where you type and save the code you want to run.
+* Upper right: Files you load into and create in R. To view one, click on it and it will open in the upper left pane.
+* Lower left: The console. Where commands and outputs run (similar to the one mothur window).
+* Lower right: Variable. Explore the different tabs.
 
 ## Data description
 
