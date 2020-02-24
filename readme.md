@@ -8,7 +8,34 @@ This workshop is a follow-up of the Microbiome analysis using QIIME2 workshop. T
 NOTE: If you need to update to the most recent version of R on Windows you can do so using the installr package. Instructions here. For OSX and Ubuntu, download from CRAN using the link above.
 
 * RStudio: https://www.rstudio.com/products/rstudio/download3/
-Packages: Open RStudio on your computer. If you have not already downloaded these packages, go to the lower right quadrant of your screen and open the Package tab. Click “download” and search for the package you want to download.
+
+
+
+
+## Project folder: Stay organized
+All of our analyses will be organized into a “Project”.
+
+Make a new project by selecting File->New project. Select “New Directory” and “Empty Project”. Name the project “Microbiome_Analysis” and save the project to your Desktop. Place all of your files for this analysis in the folder created on the Desktop
+
+Create a new R script (File->New file->R script) to save your code. This file will automatically be saved in the project folder.
+
+Now your screen should look like this
+
+Upper left: Where you type and save the code you want to run.
+Upper right: Files you load into and create in R. To view one, click on it and it will open in the upper left pane.
+Lower left: The console. Where commands and outputs run (similar to the one mothur window).
+Lower right: Variable. Explore the different tabs.
+
+## Data description
+
+In this workshop, We will work with data processed through Qiime2 and can be downloaded from the following links
+[Metadata](https://data.qiime2.org/2018.4/tutorials/moving-pictures/sample_metadata.tsv) 
+[Dada2 feature table](https://docs.qiime2.org/2018.4/data/tutorials/moving-pictures/table.qza)
+[taxonomy assignments](https://docs.qiime2.org/2018.4/data/tutorials/moving-pictures/taxonomy.qza)
+[midpointed-tree](https://docs.qiime2.org/2018.4/data/tutorials/moving-pictures/rooted-tree.qza)
+
+## Install packages
+Open RStudio on your computer. If you have not already downloaded these packages, go to the lower right quadrant of your screen and open the Package tab. Click “download” and search for the package you want to download.
 
 DECIPHER
 adespatial
@@ -83,48 +110,9 @@ library(png) # Figure download
 library("ggdendro") #set of tools for dendrograms and tree plots using 'ggplot2'
 ```
 
-
-
-## Project folder: Stay organized
-It is a general good practice to create a project folder or working directory in order to separate files from various projects. We will use the name **080519_qiime2_tutorial**. Therefore, our first task is to create this directory within the most logical place: our “Home” directory.
-
-First we can verify that we are indeed within the “Home” directory with the print working directory command pwd.
-
-```
-$ pwd    
-$ /home/BIOTECH/student01 
-```
-   
-Then, we create the directory with mkdir
-
-Create a project folder
-
-`$ mkdir 102119_qiime2_tutorial`   
-We can verify that this directory exists by checking the content of our “Home” directory with the list command ls
-
-```
-$ ls     
-102119_qiime2_tutorial   
-```
-  
-Next, move into your  102119_qiime2_tutorial folder. This will be done with the change directory command cd into  102119_qiime2_tutorial:
-
-Change directory
-
-`$ cd 102119_qiime2_tutorial`    
-We can check that this worked with the command print working directory pwd. For student01, this would look like:
-
-```
-$ pwd    
-$ /home/BIOTECH/student01/102119_qiime2_tutorial    
-```
-
 ## Data description
 
-In this tutorial you’ll use QIIME 2 to perform an analysis of soil samples from the Atacama Desert in northern Chile. The Atacama Desert is one of the most arid locations on Earth, with some areas receiving less than a millimeter of rain per decade. Despite this extreme aridity, there are microbes living in the soil. The soil microbiomes profiled in this study follow two east-west transects, Baquedano and Yungay, across which average soil relative humidity is positively correlated with elevation (higher elevations are less arid and thus have higher average soil relative humidity). Along these transects, pits were dug at each site and soil samples were collected from three depths in each pit.
-  
-
->The data used in this tutorial is presented in: Significant Impacts of Increasing Aridity on the Arid Soil Microbiome. Julia W. Neilson, Katy Califf, Cesar Cardona, Audrey Copeland, Will van Treuren, Karen L. Josephson, Rob Knight, Jack A. Gilbert, Jay Quade, J. Gregory Caporaso, and Raina M. Maier. mSystems May 2017, 2 (3) e00195-16; DOI: 10.1128/mSystems.00195-16.
+In this workshop, We will work with data processed through Qiime2 and can be downloaded 
   
 ### Downloading data
 
