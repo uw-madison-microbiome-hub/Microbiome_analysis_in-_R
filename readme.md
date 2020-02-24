@@ -29,10 +29,10 @@ Now your screen should look like this
 ## Data description
 
 In this workshop, We will work with data processed through Qiime2 and can be downloaded from the following links
-[Metadata](https://data.qiime2.org/2018.4/tutorials/moving-pictures/sample_metadata.tsv) 
-[Dada2 feature table](https://docs.qiime2.org/2018.4/data/tutorials/moving-pictures/table.qza)
-[taxonomy assignments](https://docs.qiime2.org/2018.4/data/tutorials/moving-pictures/taxonomy.qza)
-[midpointed-tree](https://docs.qiime2.org/2018.4/data/tutorials/moving-pictures/rooted-tree.qza)
+* [Metadata](https://data.qiime2.org/2018.4/tutorials/moving-pictures/sample_metadata.tsv) 
+* [Dada2 feature table](https://docs.qiime2.org/2018.4/data/tutorials/moving-pictures/table.qza)
+* [taxonomy assignments](https://docs.qiime2.org/2018.4/data/tutorials/moving-pictures/taxonomy.qza)
+* [midpointed-tree](https://docs.qiime2.org/2018.4/data/tutorials/moving-pictures/rooted-tree.qza)
 
 ## Install packages
 Open RStudio on your computer. If you have not already downloaded these packages, go to the lower right quadrant of your screen and open the Package tab. Click “download” and search for the package you want to download.
