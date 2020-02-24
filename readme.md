@@ -98,6 +98,7 @@ library(adespatial) # Tools for the multiscale spatial analysis of multivariate 
 library(devtools) # Make package development easier by providing R functions that simplify and expedite common tasks
 library(qiime2R) # A package for importing qiime artifacts into an R session
 library(MicrobeR) # Data visualization
+library(microbiome) # Data analysis and visualization
 library(microbiomeSeq) # Data analysis and visualization
 library("pander") # provide a minimal and easy tool for rendering R objects into Pandoc's markdown
 library(ranacapa) # Data analysis 
@@ -139,38 +140,19 @@ physeq<-phyloseq(
 )
 ```
 
-# 1. First steps
-
-### 1.1 Format metadata file
-
-You can format the metadata file in a spreadsheet and validate the format using a google spreadsheet plugin 'Keemei' as described on the QIIME2 website. The only required column is the sample id column, which should be first. All other columns should correspond to sample metadata. Below, we use the default filename of metadata.txt.
+Summarizing the phyloseq object to check for feature of data 
 
 ```
-wget -O "sample-metadata.tsv" "https://data.qiime2.org/2019.1/tutorials/atacama-soils/sample_metadata.tsv"
-```
-  
-### 1.2 Activate conda environment
-
-You should run this workflow in a conda environment, which makes sure the correct version of the Python packages required by QIIME2 are being used. You can activate this conda environment with this command:
-
-```
-source activate qiime2-2019.1
+# check for features of data  
+summarize_phyloseq(physeq)
 ```
 
-## 2 Paired-end read analysis commands
-To analyze these data, the sequences that you just downloaded must first be imported into an qiime artifact of type EMPPairedEndSequences.
+Check the taxa prevalence at Phylum level 
 
 ```
-qiime tools import --type EMPPairedEndSequences --input-path raw_data --output-path raw_data/paired-end-sequences.qza
+plot_taxa_prevalence(physeq, "Phylum")
 ```
 
-You next can demultiplex the sequence reads. This requires the sample metadata file, and you must indicate which column in that file contains the per-sample barcodes. In this case, that column name is BarcodeSequence. In this data set, the barcode reads are the reverse complement of those included in the sample metadata file, so we additionally include the --p-rev-comp-mapping-barcodes parameter. After demultiplexing, we can generate and view a summary of how many sequences were obtained per sample.
-
-```
-qiime demux emp-paired --m-barcodes-file sample-metadata.tsv --m-barcodes-column BarcodeSequence --i-seqs raw_data/paired-end-sequences.qza --o-per-sample-sequences demux.qza --p-rev-comp-mapping-barcodes
-
-qiime demux summarize --i-data demux.qza --o-visualization demux.qzv
-```
 
 ### 2.1 Importing already demultiplexed data
    
