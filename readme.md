@@ -60,34 +60,13 @@ install_github("jbisanz/MicrobeR")
 ### Load Packages
 The library command tells R to open the package you want to use. You need to do this every time you open R.
 ```
-# This package will help in importing, maintaining, analyzing, manipulating, and exporting a massive amount of sequences.
-library(DECIPHER)
-```
-```
-# Analyses of Phylogenetics and Evolution package. Required for tree calculations to be used with phyloseq
-library(ape)
-```
-```
-#This package will help analyze "differential expression" in the microbiota alongside phyloseq
-library(DESeq2)
-```
-```
-#Graphing package used in phyloseq. To edit the default setting of a plot, you need to use functions in this package.
-library(ggplot2)
-```
-```
-#The phyloseq package seeks to address issues with multiple microbiome analysis packages by providing a set of functions that internally manage the organizing, linking, storing, and analyzing of phylogenetic sequencing data. In general, this package is used for UniFrac analyses.
-library(phyloseq)
-```
-```
-#A package to create interactive web graphics of use in 3D plots
-library(plotly)
-```
-```
-#The vegan package provides tools for descriptive community ecology. It has most basic functions of diversity analysis, community ordination and dissimilarity analysis. In general, this package is used for Bray-Curtis and Jaccard analyses.
-library(vegan)
-```
-```
+library(DECIPHER) # This package will help in importing, maintaining, analyzing, manipulating, and exporting a massive amount of sequences.
+library(ape) # Analyses of Phylogenetics and Evolution package. Required for tree calculations to be used with phyloseq
+library(DESeq2) # This package will help analyze "differential expression" in the microbiota alongside phyloseq
+library(ggplot2) # Graphing package used in phyloseq. To edit the default setting of a plot, you need to use functions in this package.
+library(phyloseq) # The phyloseq package seeks to address issues with multiple microbiome analysis packages by providing a set of functions that internally manage the organizing, linking, storing, and analyzing of phylogenetic sequencing data. In general, this package is used for UniFrac analyses.
+library(plotly) # A package to create interactive web graphics of use in 3D plots
+library(vegan) # The vegan package provides tools for descriptive community ecology. It has most basic functions of diversity analysis, community ordination and dissimilarity analysis. In general, this package is used for Bray-Curtis and Jaccard analyses.
 library(philr) # This package provides functions for the analysis of compositional data 
 library(tidyverse) # This package is designed to make it easy to install and load multiple 'tidyverse' packages in a single step
 library(adespatial) # Tools for the multiscale spatial analysis of multivariate data
