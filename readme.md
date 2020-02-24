@@ -1,7 +1,110 @@
-This workshop will cover amplicon-based microbiome analysis using the [QIIME2](https://qiime2.org). This all-day workshop will consist of lectures and hands on training to analyze from raw dataset through publication-quality statistics and visualizations.
-There are more detailed descriptions and tutorials on the [QIIME2 website](https://docs.qiime2.org/2019.1/tutorials/).
+This workshop is a follow-up of the Microbiome analysis using QIIME2 workshop. The result from the previous workshop will be used to demonstrate basic analyses of microbiota data to determine if and how communities differ by variables of interest using R. This all-day workshop will consist of lectures and hands on training to analyze from raw dataset through publication-quality statistics and visualizations
+
 
 ## Get Started
+### Download and Install
+* Base R: http://cran.mtu.edu/
+
+NOTE: If you need to update to the most recent version of R on Windows you can do so using the installr package. Instructions here. For OSX and Ubuntu, download from CRAN using the link above.
+
+* RStudio: https://www.rstudio.com/products/rstudio/download3/
+Packages: Open RStudio on your computer. If you have not already downloaded these packages, go to the lower right quadrant of your screen and open the Package tab. Click “download” and search for the package you want to download.
+
+DECIPHER
+adespatial
+adespatial
+ape
+DESeq2
+devtools
+ggdendro
+ggplot2
+grid
+gridExtra
+knitr
+MicrobeR
+microbiomeSeq
+pander
+philr
+phyloseq
+plotly
+png
+qiime2R
+ranacapa
+tidyverse
+vegan
+
+To install most packages using the following command eg. **knitr**
+
+```
+install.packages("knitr")
+```
+For other packages, 
+Copy and paste the following into your console.
+
+```
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+```
+for example to install "phyloseq"
+
+```
+BiocManager::install("phyloseq")
+```
+
+For MicrobeR and qiime2R, use the following to install the packages
+
+```
+install_github("jbisanz/MicrobeR")
+```
+
+### Load Packages
+The library command tells R to open the package you want to use. You need to do this every time you open R.
+```
+# This package will help in importing, maintaining, analyzing, manipulating, and exporting a massive amount of sequences.
+library(DECIPHER)
+```
+```
+# Analyses of Phylogenetics and Evolution package. Required for tree calculations to be used with phyloseq
+library(ape)
+```
+```
+#This package will help analyze "differential expression" in the microbiota alongside phyloseq
+library(DESeq2)
+```
+```
+#Graphing package used in phyloseq. To edit the default setting of a plot, you need to use functions in this package.
+library(ggplot2)
+```
+```
+#The phyloseq package seeks to address issues with multiple microbiome analysis packages by providing a set of functions that internally manage the organizing, linking, storing, and analyzing of phylogenetic sequencing data. In general, this package is used for UniFrac analyses.
+library(phyloseq)
+```
+```
+#A package to create interactive web graphics of use in 3D plots
+library(plotly)
+```
+```
+#The vegan package provides tools for descriptive community ecology. It has most basic functions of diversity analysis, community ordination and dissimilarity analysis. In general, this package is used for Bray-Curtis and Jaccard analyses.
+library(vegan)
+```
+```
+library(philr) # This package provides functions for the analysis of compositional data 
+library(tidyverse) # This package is designed to make it easy to install and load multiple 'tidyverse' packages in a single step
+library(adespatial) # Tools for the multiscale spatial analysis of multivariate data
+library(devtools) # Make package development easier by providing R functions that simplify and expedite common tasks
+library(qiime2R) # A package for importing qiime artifacts into an R session
+library(MicrobeR) # Data visualization
+library(microbiomeSeq) # Data analysis and visualization
+library("pander") # provide a minimal and easy tool for rendering R objects into Pandoc's markdown
+library(ranacapa) # Data analysis 
+library(grid) # support data visualization
+library(gridExtra)  # support data visualization
+library(knitr) # Provides a general-purpose tool for dynamic report generation in R using Literate Programming techniques.
+library(png) # Figure download
+library("ggdendro") #set of tools for dendrograms and tree plots using 'ggplot2'
+```
+
+
 ### Natively installing QIIME2 on your own machine
 
 
