@@ -176,12 +176,24 @@ We can plot the rarefaction curve for the observed ASVs in the entire data set. 
 ```
 ggrare(physeq, step = 50, color="BodySite", label = "Sample", se = TRUE)
 ```
+phyloseq also allows you to easily plot alpha diversity, both by sample and by group
 
+```
+plot_richness(physeq_rarefy, measures="Shannon")
+```
+```
+plot_richness(physeq_rarefy, x="BodySite", measures=c("Shannon", "simpson", "Observed"), color = "BodySite") + geom_boxplot() + theme_bw()
+```
+generate a csv file of the richness estimates using
+```
+richness <- estimate_richness(physeq_rarefy,measures=c("Shannon", "simpson", "Observed"))
+write.csv(richness, file = "alpha_div.csv")
+```
 
-
-
-
-
+In addition to plotting you can also run anova test using the following option
+```
+plot_anova_diversity(physeq, method = c("richness", "simpson", "shannon"), grouping_column = "BodySite", pValueCutoff = 0.05)
+```
 
 
 
