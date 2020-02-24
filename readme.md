@@ -167,7 +167,8 @@ Print version information about R, the OS and attached or loaded packages
 sessionInfo()
 ```
 ## Composition plots
-
+Barplots are a one way of visualising the composition of your samples.
+At Family level and relative abundance
 ```
 physeq_fam <- microbiome::aggregate_top_taxa(physeq, "Family", top = 10)
 physeq.fam.rel <- microbiome::transform(physeq_fam, "compositional")
