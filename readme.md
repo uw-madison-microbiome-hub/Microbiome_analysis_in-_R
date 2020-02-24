@@ -145,6 +145,12 @@ Summarizing the phyloseq object to check for feature of data
 ```
 # check for features of data  
 summarize_phyloseq(physeq)
+summary(sample_sums(physeq))
+```
+
+Rarefy the phyloseq object to even depth prior various analysis
+```
+physeq_rarefy <- rarefy_even_depth(physeq, rngseed=1, sample.size=0.9*min(sample_sums(physeq)), replace=F)
 ```
 
 Check the taxa prevalence at Phylum level 
@@ -153,26 +159,31 @@ Check the taxa prevalence at Phylum level
 plot_taxa_prevalence(physeq, "Phylum")
 ```
 
+Note:
+Print version information about R, the OS and attached or loaded packages
+```
+sessionInfo()
+```
 
-### 2.1 Importing already demultiplexed data
-   
-It's assumed that the input is raw paired-end MiSeq data in demultiplexed FASTQ format located within a folder called raw_data. The filenames are expected to look like this: 105CHE6WT_S325_L001_R1_001.fastq.gz, where each field separated by an _ character corresponds to: (1) the sample name, (2) the sample# on the run, (3) the lane number, (4) the read number (R1 = forward, R2 = reverse), and (5) the set number. You may need to re-name your files to match this format; however, QIIME2 accepts many different input formats so the format and naming scheme you're using may also be supported.
+## Alpha diversities
+Alpha diversity measures are used to identify within individual taxa richness and evenness. The commonly used metrics/indices are Shannon, Inverse Simpson, Simpson, Gini, Observed and Chao1. These indices do not take into account the phylogeny of the taxa identified in sequencing. Phylogenetic diversity (Faith’s PD) uses phylogenetic distance to calculate the diversity of a given sample.
+
+One has to consider the sequencing depth (how much of the taxa have been sampled) for each sample. If there is a large difference, then it is important to normalize the samples to equal sampling depth. First, we look at the sampling depth (no. of reads per sample).
+
+We can plot the rarefaction curve for the observed ASVs in the entire data set. This is a way to check how has the richness captured in the sequencing effort.
+
 
 ```
-qiime tools import --type 'SampleData[PairedEndSequencesWithQuality]' --input-path demux/data --input-format CasavaOneEightSingleLanePerSampleDirFmt --output-path demux/demux-paired-end.qza    
-
-qiime demux summarize --i-data demux/demux-paired-end.qza --o-visualization demux/demux-paired-end.qzv
+ggrare(physeq, step = 50, color="BodySite", label = "Sample", se = TRUE)
 ```
-### 2.2 transferring qzv files between server and your system
 
-* open a new terminal in your laptop and write the following scp command to transfer files between server and laptop only for linux and Mac
 
-change the xxx to match your id's
 
-```
-scp -r studentxx@sumo.biotech.wisc.edu:/home/BIOTECH/xxxxx/qiime2_tutorial/demux/demux-paired-end.qzv /xxx/xxxx/
-```
-Those on Windows using MobaXterm (listed above) will have a built-in GUI for transfers.
+
+
+
+
+
 
 
 ## 3 Running DADA2 workflow :
