@@ -10,8 +10,6 @@ NOTE: If you need to update to the most recent version of R on Windows you can d
 * RStudio: https://www.rstudio.com/products/rstudio/download3/
 
 
-
-
 ## Project folder: Stay organized
 All of our analyses will be organized into a “Project”.
 
@@ -110,27 +108,38 @@ library(png) # Figure download
 library("ggdendro") #set of tools for dendrograms and tree plots using 'ggplot2'
 ```
 
-## Data description
+### Load Data
+In the code, the text before = is what the file will be called in R. Make this short but unique as this is how you will tell R to use this file in later commands.
 
-In this workshop, We will work with data processed through Qiime2 and can be downloaded 
-  
-### Downloading data
+Convert qiime artifacts directly to phyloseq
+```
+phy<-qza_to_phyloseq("table.qza", "rooted-tree.qza", "taxonomy.qza","Moving Pictures sample-metadata (QIIME 2 2018.4) - sample-metadata(1).tsv")
+```
+Or if you want to have more control over the object adding more or less data, you can make it yourself as below:
+```
+# Importing ASVs abundance file
+ASVs<-read_qza("table.qza")
+# Importing metadata
+metadata<-read.table("Moving Pictures sample-metadata (QIIME 2 2018.4) - sample-metadata(1).tsv", , sep='\t', header=T, row.names=1, comment="")
+metadata<-metadata[-1,]#remove the second line that specifies the data type
+# Importing tree
+tree<-read_qza("rooted-tree.qza")
+# Importing taxonomy
+taxonomy<-read_qza("taxonomy.qza")
+tax_table<-do.call(rbind, strsplit(as.character(taxonomy$data$Taxon), "; "))
+colnames(tax_table)<-c("Kingdom","Phylum","Class","Order","Family","Genus","Species")
+rownames(tax_table)<-taxonomy$data$Feature.ID
 
-`mkdir raw_data`
+# Creating phyloseq object
+physeq<-phyloseq(
+  otu_table(ASVs$data, taxa_are_rows = T),
+  phy_tree(tree$data),
+  tax_table(tax_table),
+  sample_data(metadata)
+)
+```
 
-**Forward reads**   
-```
-wget -O "raw_data/forward.fastq.gz" "https://data.qiime2.org/2019.1/tutorials/atacama-soils/10p/forward.fastq.gz"   
-```
-**Reverse reads**      
-```
-wget -O "raw_data/reverse.fastq.gz" "https://data.qiime2.org/2019.1/tutorials/atacama-soils/10p/reverse.fastq.gz"     
-```
-**Barcodes**     
-```
-wget -O "raw_data/barcodes.fastq.gz" "https://data.qiime2.org/2019.1/tutorials/atacama-soils/10p/barcodes.fastq.gz"        
-```
-## 1. First steps
+# 1. First steps
 
 ### 1.1 Format metadata file
 
