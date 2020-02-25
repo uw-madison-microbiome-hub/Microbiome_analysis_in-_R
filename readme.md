@@ -317,6 +317,7 @@ physeq_rel <- microbiome::transform(physeq, "compositional")
 physeq.ord.wuni <- ordinate(physeq_rel, "PCoA", "unifrac", weighted=T)
 b.div.wuni <- plot_ordination(physeq_rel, physeq.ord.wuni, type= "samples", color= "BodySite") + geom_point(size=3)
 b.div.wuni <- b.div.wuni + + stat_ellipse() + ggtitle("Weighted Unifrac")  + theme_classic() + scale_color_brewer("Location", palette = "Set2")
+print(b.div.wuni)
 ```
 ### Permanova
 Permutational multivariate analysis of variance [further reading](https://onlinelibrary.wiley.com/doi/10.1002/9781118445112.stat07841)
