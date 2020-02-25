@@ -523,4 +523,3 @@ To generate a plot showing differentially abundant taxa between among compared g
 ```
 plot_signif(deseq_sig$plotdata, top.taxa = 10)
 ```
-
