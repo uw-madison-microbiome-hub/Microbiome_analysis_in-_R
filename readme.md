@@ -377,8 +377,38 @@ core.abundance <- sample_sums(core(physeq.gut.rel2, detection = 0.001, prevalenc
 
 DT::datatable(as.data.frame(core.abundance))
 ```
+#### 10.2 Core visualization - Heatmap
 
+```
+# Core with compositionals:
+prevalences <- seq(.05, 1, .05)
+detections <- 10^seq(log10(1e-3), log10(.2), length = 10)
 
+# Also define color palette
+gray <- gray(seq(0,1,length=5))
+p.core <- plot_core(physeq.gut.rel2, 
+                    plot.type = "heatmap", 
+                    colours = rev(brewer.pal(5, "Spectral")),
+                    prevalences = prevalences, 
+                    detections = detections, 
+                    min.prevalence = .5) +
+  xlab("Detection Threshold (Relative Abundance (%))")
+print(p.core)
+```
+Use the format_to_besthit function from microbiomeutilities to get the best classification of the ASVs.
+```
+physeq.gut.rel2.f <- microbiomeutilities::format_to_besthit(physeq.gut.rel2)
+
+p.core <- plot_core(physeq.gut.rel2.f, 
+                    plot.type = "heatmap", 
+                    colours = rev(brewer.pal(5, "Spectral")),
+                    prevalences = prevalences, 
+                    detections = detections, 
+                    min.prevalence = .5) + 
+  xlab("Detection Threshold (Relative Abundance (%))")
+
+p.core + theme(axis.text.y = element_text(face="italic"))
+```
 
 
 
