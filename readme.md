@@ -409,9 +409,66 @@ p.core <- plot_core(physeq.gut.rel2.f,
 
 p.core + theme(axis.text.y = element_text(face="italic"))
 ```
+## 11. Tree plot
 
+Subset the data to top 50 taxa for beteer visualization
+```
+physeq_top_50 <- subset_taxa(physeq, Kingdom=="k__Bacteria")
+physeq_top_50 <- prune_taxa(names(sort(taxa_sums(physeq_top_50),TRUE)[1:50]), physeq_top_50)
 
+# Default plot tree
+plot_tree(physeq_top_50)
 
+# Add genus labels to the tree and bootstrap values
+plot_tree(physeq_top_50, label.tips="Genus", ladderize="left")
+
+# Remove bootstrap values
+plot_tree(physeq_top_50, nodelabf=nodeplotblank, label.tips="Genus", ladderize="left")
+
+# Color the nodes by category
+plot_tree(physeq_top_50, nodelabf=nodeplotblank, label.tips="Genus", ladderize="left", color="BodySite")
+
+# Add size by abundance
+plot_tree(physeq_top_50, nodelabf=nodeplotblank, label.tips="Genus", ladderize="left", color="BodySite", size="abundance")
+
+# Convert to radial tree
+plot_tree(physeq_top_50, nodelabf=nodeplotblank, label.tips="Genus", ladderize="left", color="BodySite") + coord_polar(theta="y")
+```
+
+### 11.1 Hierarchical Clustering
+
+Heirachial clustering to visualize the distance between the samples using Weighted Unifrac and UPGMA method.
+
+```
+phy.hclust <- hclust(UniFrac(physeq_rarefy, weighted = TRUE), method="average")
+
+ggdendrogram(phy.hclust, rotate = TRUE, theme_dendro = TRUE)
+```
+
+## 12. Microbiome network
+
+You can plot the distances between ASVs as a network.
+
+```
+plot_net(physeq_rel, maxdist = 0.8, color = "BodySite")
+#change distance to Jaccard
+plot_net(physeq_rel, maxdist = 0.8, color = "BodySite", distance="jaccard")
+```
+
+### 12.1 igraph-based network
+
+```
+ig <- make_network(physeq_rel, max.dist=0.8)
+plot_network(ig, physeq_rel)
+
+# Add color label 
+plot_network(ig, physeq_rel, color="BodySite", line_weight=0.4, label=NULL)
+
+#replace the Jaccard (default) distance method with Bray-Curtis
+ig <- make_network(physeq_rel, dist.fun="bray", max.dist=0.8)
+plot_network(ig, physeq_rel, color="BodySite", line_weight=0.4, label=NULL)
+```
+Note: For co-occurrence networks of OTUs, I suggest trying Gephi or Cytoscape
 
 
 
