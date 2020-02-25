@@ -472,5 +472,52 @@ Note: For co-occurrence networks of OTUs, I suggest trying Gephi or Cytoscape
 
 ## 13. Differential abundance testing
 
+DeSeq2 to test for differential abundance between categories
 
+```
+#Convert phyloseq object ot DeSeq
+bsdds <- phyloseq_to_deseq2(physeq_rarefy, ~ BodySite)
+gm_mean <- function(x, na.rm=TRUE){
+  exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
+}
+geoMeans <- apply(counts(diagdds), 1, gm_mean)
+bsdds <- estimateSizeFactors(bsdds, geoMeans = geoMeans)
+# DeSeq function tests for differential abundance 
+bsdds <- DESeq(bsdds, test="Wald", fitType="parametric")
+
+# Results function call creates a table of the results of the tests
+res <- results(bsdds, cooksCutoff = FALSE)
+alpha <- 0.01
+sigtab <- res[which(res$padj < alpha), ]
+sigtab <- cbind(as(sigtab, "data.frame"), as(tax_table(physeq_rarefy)[rownames(sigtab), ], "matrix"))
+head(sigtab)
+
+# Cleaning up the table a little for legibility
+posigtab <- sigtab[sigtab[, "log2FoldChange"] > 0, ]
+posigtab <- posigtab[, c("baseMean", "log2FoldChange", "lfcSE", "padj", "Phylum", "Class", "Family", "Genus")]
+
+# Bar plot showing the log2-fold-change, showing Genus and Phylum. Uses some ggplot2 commands
+sigtabgen <- subset(sigtab, !is.na(Genus))
+# Phylum order
+x <- tapply(sigtabgen$log2FoldChange, sigtabgen$Phylum, function(x) max(x))
+x <- sort(x, TRUE)
+sigtabgen$Phylum = factor(as.character(sigtabgen$Phylum), levels=names(x))
+# Genus order
+x <- tapply(sigtabgen$log2FoldChange, sigtabgen$Genus, function(x) max(x))
+x <- sort(x, TRUE)
+sigtabgen$Genus = factor(as.character(sigtabgen$Genus), levels=names(x))
+ggplot(sigtabgen, aes(y=Genus, x=log2FoldChange, color=Phylum)) + 
+  geom_vline(xintercept = 0.0, color = "gray", size = 0.5) +
+  geom_point(size=6) + 
+  theme(axis.text.x = element_text(angle = -90, hjust = 0, vjust=0.5))
+```
+
+#### 13.1 Alternative DeSeq using microbiomeSeq
+```
+physeq_genus <- taxa_level(physeq_rarefy, "Genus")
+
+deseq_sig <- differential_abundance(physeq_genus, grouping_column = "BodySite", output_norm = "log-relative", pvalue.threshold = 0.05, lfc.threshold = 0, filename = T)
+# To generate a plot showing differentially abundant taxa between among compared groups , corresponding adjusted p-values and rank of importance as detected by random forest classifier.
+plot_signif(deseq_sig$plotdata, top.taxa = 10)
+```
 
