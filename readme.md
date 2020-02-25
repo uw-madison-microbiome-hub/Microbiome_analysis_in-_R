@@ -124,7 +124,7 @@ Or if you want to have more control over the object adding more or less data, yo
 ASVs<-read_qza("table.qza")
 # Importing metadata
 metadata<-read.table("Moving Pictures sample-metadata (QIIME 2 2018.4) - sample-metadata(1).tsv", , sep='\t', header=T, row.names=1, comment="")
-metadata<-metadata[-1,]#remove the second line that specifies the data type
+metadata<-metadata[-1,] # remove the second line that specifies the data type
 # Importing tree
 tree<-read_qza("rooted-tree.qza")
 # Importing taxonomy
