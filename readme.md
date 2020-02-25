@@ -519,7 +519,7 @@ physeq_genus <- taxa_level(physeq_rarefy, "Genus")
 
 deseq_sig <- differential_abundance(physeq_genus, grouping_column = "BodySite", output_norm = "log-relative", pvalue.threshold = 0.05, lfc.threshold = 0, filename = T)
 ```
-To generate a plot showing differentially abundant taxa between among compared groups , corresponding adjusted p-values and rank of importance as detected by random forest classifier.
+To generate a plot showing differentially abundant taxa between among compared groups, corresponding adjusted p-values and rank of importance as detected by random forest classifier.
 ```
 plot_signif(deseq_sig$plotdata, top.taxa = 10)
 ```
