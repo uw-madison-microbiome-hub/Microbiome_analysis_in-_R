@@ -174,6 +174,17 @@ physeq_fam <- microbiome::aggregate_top_taxa(physeq, "Family", top = 10)
 physeq.fam.rel <- microbiome::transform(physeq_fam, "compositional")
 plot_composition(physeq.fam.rel,sample.sort = "BodySite", x.label = "SampleID") + theme(legend.position = "bottom") + scale_fill_brewer("Family", palette = "Paired") + theme_bw() + theme(axis.text.x = element_text(angle = 90)) + ggtitle("Relative abundance") + theme(legend.title = element_text(size = 18))
 ```
+Another option fot barplots 
+```
+Microbiome.Barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, NTOPLOT=10, CATEGORY="BodySite")
+
+# To make it interactive
+ggplotly(Microbiome.Barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, NTOPLOT=10, CATEGORY="BodySite"))
+```
+
+## Heatmap
+These are a good alternative to barplots
+
 ## Alpha diversities
 Alpha diversity measures are used to identify within individual taxa richness and evenness. The commonly used metrics/indices are Shannon, Inverse Simpson, Simpson, Gini, Observed and Chao1. These indices do not take into account the phylogeny of the taxa identified in sequencing. Phylogenetic diversity (Faith’s PD) uses phylogenetic distance to calculate the diversity of a given sample.
 
