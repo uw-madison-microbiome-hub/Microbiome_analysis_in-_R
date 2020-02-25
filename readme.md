@@ -144,25 +144,25 @@ In the code, the text before = is what the file will be called in R. Make this s
 
 Convert qiime artifacts directly to phyloseq
 ```
-phy<-qza_to_phyloseq("table.qza", "rooted-tree.qza", "taxonomy.qza","Moving Pictures sample-metadata (QIIME 2 2018.4) - sample-metadata(1).tsv")
+phy <- qza_to_phyloseq("table.qza", "rooted-tree.qza", "taxonomy.qza","Moving Pictures sample-metadata (QIIME 2 2018.4) - sample-metadata(1).tsv")
 ```
 Or if you want to have more control over the object adding more or less data, you can make it yourself as below:
 ```
 # Importing ASVs abundance file
-ASVs<-read_qza("table.qza")
+ASVs <- read_qza("table.qza")
 # Importing metadata
-metadata<-read.table("Moving Pictures sample-metadata (QIIME 2 2018.4) - sample-metadata(1).tsv", , sep='\t', header=T, row.names=1, comment="")
-metadata<-metadata[-1,] # remove the second line that specifies the data type
+metadata <- read.table("Moving Pictures sample-metadata (QIIME 2 2018.4) - sample-metadata(1).tsv", , sep='\t', header=T, row.names=1, comment="")
+metadata <- metadata[-1,] # remove the second line that specifies the data type
 # Importing tree
-tree<-read_qza("rooted-tree.qza")
+tree <- read_qza("rooted-tree.qza")
 # Importing taxonomy
-taxonomy<-read_qza("taxonomy.qza")
-tax_table<-do.call(rbind, strsplit(as.character(taxonomy$data$Taxon), "; "))
-colnames(tax_table)<-c("Kingdom","Phylum","Class","Order","Family","Genus","Species")
-rownames(tax_table)<-taxonomy$data$Feature.ID
+taxonomy <- read_qza("taxonomy.qza")
+tax_table <- do.call(rbind, strsplit(as.character(taxonomy$data$Taxon), "; "))
+colnames(tax_table) <- c("Kingdom","Phylum","Class","Order","Family","Genus","Species")
+rownames(tax_table) <- taxonomy$data$Feature.ID
 
 # Creating phyloseq object
-physeq<-phyloseq(
+physeq <- phyloseq(
   otu_table(ASVs$data, taxa_are_rows = T),
   phy_tree(tree$data),
   tax_table(tax_table),
