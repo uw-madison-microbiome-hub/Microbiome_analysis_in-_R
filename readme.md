@@ -35,31 +35,31 @@ In this workshop, We will work with data processed through Qiime2 and can be dow
 ## 4. Install packages
 Open RStudio on your computer. If you have not already downloaded these packages, go to the lower right quadrant of your screen and open the Package tab. Click “download” and search for the package you want to download.
 
-DECIPHER
-adespatial
-ape
-DESeq2
-devtools
-ggdendro
-ggplot2
-grid
-gridExtra
-knitr
-MicrobeR
-microbiomeSeq
-microbiome
-pander
-philr
-phyloseq
-plotly
-png
-qiime2R
-ranacapa
-tidyverse
-vegan
-ggpubr
-RColorBrewer
-microbiomeutilities
+* DECIPHER  
+* adespatial  
+* ape  
+* DESeq2  
+* devtools  
+* ggdendro
+* ggplot2
+* grid
+* gridExtra
+* knitr
+* MicrobeR
+* microbiomeSeq
+* microbiome
+* pander
+* philr
+* phyloseq
+* plotly
+* png
+* qiime2R
+* ranacapa
+* tidyverse
+* vegan
+* ggpubr
+* RColorBrewer
+* microbiomeutilities
 
 To install most packages using the following command eg. **knitr**
 
