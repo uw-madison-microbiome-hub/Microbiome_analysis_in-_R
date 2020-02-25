@@ -3,11 +3,11 @@ This workshop is a follow-up of the Microbiome analysis using QIIME2 workshop. T
 
 ## 1. Get Started
 ### 1.1 Download and Install
-* Base R: [http://cran.mtu.edu/]
+* Base R: <http://cran.mtu.edu/>
 
 NOTE: If you need to update to the most recent version of R on Windows you can do so using the installr package. Instructions here. For OSX and Ubuntu, download from CRAN using the link above.
 
-* RStudio: [https://www.rstudio.com/products/rstudio/download3/]
+* RStudio: <https://www.rstudio.com/products/rstudio/download3/>
 
 
 ## 2. Project folder: Stay organized
