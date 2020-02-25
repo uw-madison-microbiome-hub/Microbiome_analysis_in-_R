@@ -470,5 +470,7 @@ plot_network(ig, physeq_rel, color="BodySite", line_weight=0.4, label=NULL)
 ```
 Note: For co-occurrence networks of OTUs, I suggest trying Gephi or Cytoscape
 
+## 13. Differential abundance testing
+
 
 
