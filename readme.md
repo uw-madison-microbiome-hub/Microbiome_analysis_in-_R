@@ -149,6 +149,22 @@ Summarizing the phyloseq object to check for feature of data
 summarize_phyloseq(physeq)
 summary(sample_sums(physeq))
 ```
+Accessing the phyloseq object
+```
+ntaxa(physeq)
+
+nsamples(physeq)
+
+sample_names(physeq)[1:5]  
+
+rank_names(physeq)  
+
+sample_variables(physeq)  
+
+otu_table(physeq)[1:5, 1:5]  
+
+tax_table(physeq)[1:5, 1:4]
+```
 
 Rarefy the phyloseq object to even depth prior various analysis
 ```
