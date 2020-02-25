@@ -209,7 +209,24 @@ h.map <- h.map + rremove("x.text")
 
 print(h.map)
 
+# Saving the plot
 ggsave("heatmap_family.png", h.map,  width = 14, height = 10, dpi = 300)
+```
+
+### Boxplot
+
+```
+physeq_df <- microbiomeutilities::phy_to_ldf(physeq_fam, 
+                                         transform.counts = "compositional")
+
+# An additonal column Sam_rep with sample names is created for reference purpose
+colnames(physeq_df)
+
+# Box plot at Family level
+
+ggstripchart(physeq_df, "BodySite", "Abundance", 
+             facet.by = "Family", color = "BodySite",
+             palette = "jco") + rremove("x.text")
 ```
 
 ## Alpha diversities
