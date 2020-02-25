@@ -299,5 +299,24 @@ We can test pairwise within the age groups with Wilcoxon Rank Sum Tests. This te
 pairwise.wilcox.test(shannon$Shannon, metadata$BodySite, p.adjust.method="fdr")
 ```
 
+### Beta diversity metrices
+Beta-diversity: Measures for differences between samples from different groups to identify if there are differences in the overall community composition and structure.
+
+#### Non - Phylogenetic beta diversity metrics
+```
+physeq.ord <- ordinate(physeq_rarefy, "PCoA", "bray")
+b.div.bray <- plot_ordination(physeq_rarefy, physeq.ord, type= "samples", color= "BodySite") + geom_point(size=3)
+b.div.bray <- b.div.bray + stat_ellipse() + ggtitle("Bray Curtis")  + theme_classic() + scale_color_brewer("Location", palette = "Set2")
+print(b.div.bray)
+```
+#### Phylogenetic beta diversity metrics
+```
+# convert ot relative abundance
+physeq_rel <- microbiome::transform(physeq, "compositional")
+physeq.ord.wuni <- ordinate(physeq_rel, "PCoA", "unifrac", weighted=T)
+b.div.wuni <- plot_ordination(physeq_rel, physeq.ord.wuni, type= "samples", color= "BodySite") + geom_point(size=3)
+b.div.wuni <- b.div.wuni + + stat_ellipse() + ggtitle("Weighted Unifrac")  + theme_classic() + scale_color_brewer("Location", palette = "Set2")
+```
+
 
 
