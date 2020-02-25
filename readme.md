@@ -322,6 +322,22 @@ print(b.div.wuni)
 ### Permanova
 Permutational multivariate analysis of variance [further reading](https://onlinelibrary.wiley.com/doi/10.1002/9781118445112.stat07841)
 
+```
+w.unifrac.dist <- UniFrac(physeq_rel, 
+                        weighted = TRUE, 
+                        normalized = TRUE,  
+                        parallel = FALSE, 
+                        fast = TRUE)
 
+permanova <- adonis(unifrac.dist ~ BodySite, data = metadata)
+permanova
+```
+#### Checking the homogeneity condition
+More infromation can be found by typing ```?betadisper```
+```
+physeq.disper <- betadisper(w.unifrac.dist, metadata$BodySite)
+permutest(physeq.disper, pairwise = TRUE)
+```
+## Core microbiota
 
 
