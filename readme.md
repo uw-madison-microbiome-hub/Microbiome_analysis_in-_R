@@ -37,7 +37,6 @@ Open RStudio on your computer. If you have not already downloaded these packages
 
 DECIPHER
 adespatial
-adespatial
 ape
 DESeq2
 devtools
@@ -48,6 +47,7 @@ gridExtra
 knitr
 MicrobeR
 microbiomeSeq
+microbiome
 pander
 philr
 phyloseq
@@ -57,6 +57,9 @@ qiime2R
 ranacapa
 tidyverse
 vegan
+ggpubr
+RColorBrewer
+microbiomeutilities
 
 To install most packages using the following command eg. **knitr**
 
@@ -109,6 +112,7 @@ library(png) # Figure download
 library("ggdendro") #set of tools for dendrograms and tree plots using 'ggplot2'
 library(ggpubr) # publication quality figures, based on ggplot2
 library(RColorBrewer) # nice color options
+library(microbiomeutilities) # some utility tools 
 ```
 
 ### 4.2 Load Data
