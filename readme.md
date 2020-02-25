@@ -180,10 +180,37 @@ Microbiome.Barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, m
 
 # To make it interactive
 ggplotly(Microbiome.Barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, NTOPLOT=10, CATEGORY="BodySite"))
+
+# save the plot
+b.plot <- Microbiome.Barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, NTOPLOT=10, CATEGORY="BodySite")
+
+ggsave("barplot_family.png", b.plot,  width = 14, height = 10, dpi = 300)
 ```
 
 ## Heatmap
 These are a good alternative to barplots
+
+```
+Microbiome.Heatmap(FEATURES=Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, METADATA=metadata, NTOPFEATURES = 30, ROWCLUSTER = "abundance", CATEGORY="BodySite")
+```
+
+Alternative option with more control and options
+```
+h.map <- plot_heatmap(physeq.fam.rel, method="PCoA", distance="bray", taxa.label = "Family", sample.order = unique(sample_names(physeq))) + facet_grid(~BodySite, scales = "free_x", drop = TRUE) + theme_bw() + theme(axis.text.x = element_text(face = "bold", angle = 45, hjust = 1)) + theme(legend.key = element_blank(),strip.background = element_rect(colour="black", fill="white"))
+
+# Make bacterial names italics
+h.map <- h.map + theme(axis.text.y = element_text(colour = 'black', size = 10, face = 'italic'))
+
+# Change the color palette
+h.map <- h.map + scale_fill_distiller("Abundance", palette = "RdYlBu")
+
+# clean the x-axis
+h.map <- h.map + rremove("x.text")
+
+print(h.map)
+
+ggsave("heatmap_family.png", h.map,  width = 14, height = 10, dpi = 300)
+```
 
 ## Alpha diversities
 Alpha diversity measures are used to identify within individual taxa richness and evenness. The commonly used metrics/indices are Shannon, Inverse Simpson, Simpson, Gini, Observed and Chao1. These indices do not take into account the phylogeny of the taxa identified in sequencing. Phylogenetic diversity (Faith’s PD) uses phylogenetic distance to calculate the diversity of a given sample.
