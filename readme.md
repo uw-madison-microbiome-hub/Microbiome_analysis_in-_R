@@ -340,4 +340,48 @@ permutest(physeq.disper, pairwise = TRUE)
 ```
 ## 10. Core microbiota
 
+Subset the data to keep only gut samples.
+
+```
+physeq.gut <- subset_samples(physeq, BodySite == "gut")
+
+# convert to relative abundance  
+physeq.gut.rel <- microbiome::transform(physeq.gut, "compositional")
+
+physeq.gut.rel2 <- prune_taxa(taxa_sums(physeq.gut.rel) > 0, physeq.gut.rel)
+```
+
+Check for the core ASVs
+
+```
+core.taxa.standard <- core_members(physeq.gut.rel2, detection = 0.001, prevalence = 50/100)
+print(core.taxa.standard)
+```
+
+we only see IDs, not very informative. We can get the classification of these as below.
+
+```
+# Extract the taxonomy table
+taxonomy_core <- as.data.frame(tax_table(physeq.gut.rel2))
+
+# Subset this taxonomy table to include only core OTUs
+core_taxa_id <- subset(taxonomy_core, rownames(taxonomy_core) %in% core.taxa.standard)
+
+DT::datatable(core_taxa_id)
+```
+### 10.1 Core abundance and diversity
+Total core abundance in each sample (sum of abundances of the core members):
+
+```
+core.abundance <- sample_sums(core(physeq.gut.rel2, detection = 0.001, prevalence = 50/100))
+
+DT::datatable(as.data.frame(core.abundance))
+```
+
+
+
+
+
+
+
 
