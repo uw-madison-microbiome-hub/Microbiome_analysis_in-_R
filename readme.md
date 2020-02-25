@@ -1,8 +1,8 @@
 This workshop is a follow-up of the Microbiome analysis using QIIME2 workshop. The result from the previous workshop will be used to demonstrate basic analyses of microbiota data to determine if and how communities differ by variables of interest using R. This all-day workshop will consist of lectures and hands on training to analyze from raw dataset through publication-quality statistics and visualizations
 
 
-## Get Started
-### Download and Install
+## 1. Get Started
+### 1.1 Download and Install
 * Base R: http://cran.mtu.edu/
 
 NOTE: If you need to update to the most recent version of R on Windows you can do so using the installr package. Instructions here. For OSX and Ubuntu, download from CRAN using the link above.
@@ -10,7 +10,7 @@ NOTE: If you need to update to the most recent version of R on Windows you can d
 * RStudio: https://www.rstudio.com/products/rstudio/download3/
 
 
-## Project folder: Stay organized
+## 2. Project folder: Stay organized
 All of our analyses will be organized into a “Project”.
 
 Make a new project by selecting File->New project. Select “New Directory” and “Empty Project”. Name the project “Microbiome_Analysis” and save the project to your Desktop. Place all of your files for this analysis in the folder created on the Desktop
@@ -24,7 +24,7 @@ Now your screen should look like this
 * Lower left: The console. Where commands and outputs run (similar to the one mothur window).
 * Lower right: Variable. Explore the different tabs.
 
-## Data description
+## 3. Data description
 
 In this workshop, We will work with data processed through Qiime2 and can be downloaded from the following links
 * [Metadata](https://data.qiime2.org/2018.4/tutorials/moving-pictures/sample_metadata.tsv) 
@@ -32,7 +32,7 @@ In this workshop, We will work with data processed through Qiime2 and can be dow
 * [taxonomy assignments](https://docs.qiime2.org/2018.4/data/tutorials/moving-pictures/taxonomy.qza)
 * [midpointed-tree](https://docs.qiime2.org/2018.4/data/tutorials/moving-pictures/rooted-tree.qza)
 
-## Install packages
+## 4. Install packages
 Open RStudio on your computer. If you have not already downloaded these packages, go to the lower right quadrant of your screen and open the Package tab. Click “download” and search for the package you want to download.
 
 DECIPHER
@@ -82,7 +82,7 @@ For MicrobeR and qiime2R, use the following to install the packages
 install_github("jbisanz/MicrobeR")
 ```
 
-### Load Packages
+### 4.1 Load Packages
 The library command tells R to open the package you want to use. You need to do this every time you open R.
 ```
 library(DECIPHER) # This package will help in importing, maintaining, analyzing, manipulating, and exporting a massive amount of sequences.
@@ -111,7 +111,7 @@ library(ggpubr) # publication quality figures, based on ggplot2
 library(RColorBrewer) # nice color options
 ```
 
-### Load Data
+### 4.2 Load Data
 In the code, the text before = is what the file will be called in R. Make this short but unique as this is how you will tell R to use this file in later commands.
 
 Convert qiime artifacts directly to phyloseq
@@ -166,7 +166,7 @@ Print version information about R, the OS and attached or loaded packages
 ```
 sessionInfo()
 ```
-## Composition plots
+## 5. Composition plots
 Barplots are a one way of visualising the composition of your samples.
 At Family level and relative abundance
 ```
@@ -187,7 +187,7 @@ b.plot <- Microbiome.Barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))
 ggsave("barplot_family.png", b.plot,  width = 14, height = 10, dpi = 300)
 ```
 
-## Heatmap
+## 6. Heatmap
 These are a good alternative to barplots
 
 ```
@@ -213,7 +213,7 @@ print(h.map)
 ggsave("heatmap_family.png", h.map,  width = 14, height = 10, dpi = 300)
 ```
 
-### Boxplot
+## 7. Boxplot
 
 ```
 physeq_df <- microbiomeutilities::phy_to_ldf(physeq_fam, 
@@ -229,7 +229,7 @@ ggstripchart(physeq_df, "BodySite", "Abundance",
              palette = "jco") + rremove("x.text")
 ```
 
-## Alpha diversities
+## 8 Alpha diversities
 Alpha diversity measures are used to identify within individual taxa richness and evenness. The commonly used metrics/indices are Shannon, Inverse Simpson, Simpson, Gini, Observed and Chao1. These indices do not take into account the phylogeny of the taxa identified in sequencing. Phylogenetic diversity (Faith’s PD) uses phylogenetic distance to calculate the diversity of a given sample.
 
 One has to consider the sequencing depth (how much of the taxa have been sampled) for each sample. If there is a large difference, then it is important to normalize the samples to equal sampling depth. First, we look at the sampling depth (no. of reads per sample).
@@ -259,7 +259,7 @@ In addition to plotting you can also run anova test using the following option (
 plot_anova_diversity(physeq, method = c("richness", "simpson", "shannon"), grouping_column = "BodySite", pValueCutoff = 0.05)
 ```
 
-### Alpha statistics
+### 8.1 Alpha statistics
 
 Overall, for alpha-diversity:
 
@@ -273,7 +273,7 @@ shapiro.test(shannon$Shannon)
 hist(shannon$Shannon, main="Shannon diversity", xlab="", breaks=10)
 ```
 
-#### Normally distributed metrics
+#### 8.1.1 Normally distributed metrics
 we will use Shannon’s diversity as an example. we will test BodySite, which is a categorical variable with more than 2 levels. Thus, we run ANOVA. If age were only two levels, we could run a t-test
 
 ```
@@ -288,7 +288,7 @@ To do all the pairwise comparisons between groups and correct for multiple compa
 TukeyHSD(aov.shannon.bodysite)
 ```
 
-#### Non-normally distributed metrics
+#### 8.1.2 Non-normally distributed metrics
 we use Kruskal-Wallis (non-parametric equivalent of ANOVA). If we have only two levels, we would run Wilcoxon rank sum test (non-parametric equivalent of t-test)
 
 ```
@@ -299,17 +299,17 @@ We can test pairwise within the age groups with Wilcoxon Rank Sum Tests. This te
 pairwise.wilcox.test(shannon$Shannon, metadata$BodySite, p.adjust.method="fdr")
 ```
 
-## Beta diversity metrices
+## 9. Beta diversity metrices
 Beta-diversity: Measures for differences between samples from different groups to identify if there are differences in the overall community composition and structure.
 
-#### Non - Phylogenetic beta diversity metrics
+#### 9.1 Non - Phylogenetic beta diversity metrics
 ```
 physeq.ord <- ordinate(physeq_rarefy, "PCoA", "bray")
 b.div.bray <- plot_ordination(physeq_rarefy, physeq.ord, type= "samples", color= "BodySite") + geom_point(size=3)
 b.div.bray <- b.div.bray + stat_ellipse() + ggtitle("Bray Curtis")  + theme_classic() + scale_color_brewer("Location", palette = "Set2")
 print(b.div.bray)
 ```
-#### Phylogenetic beta diversity metrics
+#### 9.2 Phylogenetic beta diversity metrics
 Weighted Unifrac will consider the abundances of different taxa.
 ```
 # convert ot relative abundance
@@ -319,7 +319,7 @@ b.div.wuni <- plot_ordination(physeq_rel, physeq.ord.wuni, type= "samples", colo
 b.div.wuni <- b.div.wuni + + stat_ellipse() + ggtitle("Weighted Unifrac")  + theme_classic() + scale_color_brewer("Location", palette = "Set2")
 print(b.div.wuni)
 ```
-### Permanova
+### 9.3 Permanova
 Permutational multivariate analysis of variance [further reading](https://onlinelibrary.wiley.com/doi/10.1002/9781118445112.stat07841)
 
 ```
@@ -332,12 +332,12 @@ w.unifrac.dist <- UniFrac(physeq_rel,
 permanova <- adonis(unifrac.dist ~ BodySite, data = metadata)
 permanova
 ```
-#### Checking the homogeneity condition
+#### 9.4 Checking the homogeneity condition
 More infromation can be found by typing ```?betadisper```
 ```
 physeq.disper <- betadisper(w.unifrac.dist, metadata$BodySite)
 permutest(physeq.disper, pairwise = TRUE)
 ```
-## Core microbiota
+## 10. Core microbiota
 
 
