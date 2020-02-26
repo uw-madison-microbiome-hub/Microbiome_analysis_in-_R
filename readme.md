@@ -360,7 +360,7 @@ Weighted Unifrac will consider the abundances of different taxa.
 physeq_rel <- microbiome::transform(physeq, "compositional")
 physeq.ord.wuni <- ordinate(physeq_rel, "PCoA", "unifrac", weighted=T)
 b.div.wuni <- plot_ordination(physeq_rel, physeq.ord.wuni, type= "samples", color= "BodySite") + geom_point(size=3)
-b.div.wuni <- b.div.wuni + + stat_ellipse() + ggtitle("Weighted Unifrac")  + theme_classic() + scale_color_brewer("Location", palette = "Set2")
+b.div.wuni <- b.div.wuni + stat_ellipse() + ggtitle("Weighted Unifrac")  + theme_classic() + scale_color_brewer("Location", palette = "Set2")
 print(b.div.wuni)
 ```
 ### 9.3 Permanova
@@ -373,7 +373,7 @@ w.unifrac.dist <- UniFrac(physeq_rel,
                         parallel = FALSE, 
                         fast = TRUE)
 
-permanova <- adonis(unifrac.dist ~ BodySite, data = metadata)
+permanova <- adonis(w.unifrac.dist ~ BodySite, data = metadata)
 permanova
 ```
 #### 9.4 Checking the homogeneity condition
@@ -524,7 +524,7 @@ bsdds <- phyloseq_to_deseq2(physeq_rarefy, ~ BodySite)
 gm_mean <- function(x, na.rm=TRUE){
   exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 }
-geoMeans <- apply(counts(diagdds), 1, gm_mean)
+geoMeans <- apply(counts(bsdds), 1, gm_mean)
 bsdds <- estimateSizeFactors(bsdds, geoMeans = geoMeans)
 # DeSeq function tests for differential abundance 
 bsdds <- DESeq(bsdds, test="Wald", fitType="parametric")
