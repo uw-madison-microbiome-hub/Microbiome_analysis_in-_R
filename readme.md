@@ -61,6 +61,36 @@ Open RStudio on your computer. If you have not already downloaded these packages
 * RColorBrewer
 * microbiomeutilities
 
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+
+BiocManager::install(c("DECIPHER","DESeq2", "philr", "phyloseq"))
+
+BiocManager::install("preprocessCore")
+BiocManager::install("GO.db")
+BiocManager::install("impute")
+
+install.packages(c("adespatial","ape","devtools","ggdendro","gridExtra","knitr","MicrobeR","pander","plotly","png","tidyverse","vegan"))
+
+
+library(devtools)
+
+devtools::install_github("gauravsk/ranacapa")
+devtools::install_github("umerijaz/microbiomeSeq") 
+
+install.packages("remotes")
+
+remotes::install_github("jbisanz/qiime2R")
+remotes::install_github("jbisanz/MicrobeR")
+
+New Packages:
+
+remotes::install_github("microsud/microbiomeutilities")
+BiocManager::install("microbiome")
+
+install.packages(c("ggpubr", "RColorBrewer"))
+
 To install most packages using the following command eg. **knitr**
 
 ```
