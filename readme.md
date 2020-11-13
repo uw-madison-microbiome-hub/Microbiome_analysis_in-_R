@@ -61,6 +61,7 @@ Open RStudio on your computer. If you have not already downloaded these packages
 * RColorBrewer
 * microbiomeutilities
 
+```
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
@@ -90,6 +91,7 @@ remotes::install_github("microsud/microbiomeutilities")
 BiocManager::install("microbiome")
 
 install.packages(c("ggpubr", "RColorBrewer"))
+```
 
 To install most packages using the following command eg. **knitr**
 
