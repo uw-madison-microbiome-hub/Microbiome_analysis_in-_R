@@ -404,6 +404,63 @@ top_genera + stat_compare_means(
                    tip.length = 0.05,
                    method = "wilcox.test")
 ```
+
+#### Taxa overview
+To check which taxa is present and how ti is distributed. 
+
+#### Dominant taxa
+Sometimes, we are interested in identifying the most dominant taxa in each sample. We may also wish to check what percent of samples within a given group are these taxa dominating.
+
+```
+physeq.gen <- aggregate_taxa(physeq,"Genus")
+
+dom.tax <- dominant_taxa(physeq,level = "Genus", group="BodySite")
+head(dom.tax$dominant_overview)
+```
+#### Taxa summary
+On the enitre dataset
+
+```
+taxa_summary(physeq, "Phylum")
+```
+
+#### Taxa summary by groups
+For group specific abundances of taxa
+
+```
+grp_abund <- get_group_abundances(physeq, 
+                                  level = "Phylum", 
+                                  group="BodySite",
+                                  transform = "compositional")
+
+# clean names 
+grp_abund$OTUID <- gsub("p__", "",grp_abund$OTUID)
+grp_abund$OTUID <- ifelse(grp_abund$OTUID == "", 
+                          "Unclassified", grp_abund$OTUID)
+
+mean.plot <- grp_abund %>% # input data
+  ggplot(aes(x= reorder(OTUID, mean_abundance), # reroder based on mean abundance
+             y= mean_abundance,
+             fill=BodySite)) + # x and y axis 
+  geom_bar(     stat = "identity", 
+                position=position_dodge()) + 
+  scale_fill_manual("BodySite", values=mycols) + # manually specify colors
+  theme_bw() + # add a widely used ggplot2 theme
+  ylab("Mean Relative Abundance") + # label y axis
+  xlab("Phylum") + # label x axis
+  coord_flip() # rotate plot 
+
+mean.plot
+```
+#### Find samples dominated by specific taxa
+
+```
+bact_dom <- find_samples_taxa(physeq.gen, taxa = "g__Bacteroides")
+
+#get sample dominated by "g__Bacteroides
+ps.sub <- prune_samples(sample_names(physeq.gen) %in% bact_dom, physeq.gen)
+```
+
 ## 8 Alpha diversities
 Alpha diversity measures are used to identify within individual taxa richness and evenness. The commonly used metrics/indices are Shannon, Inverse Simpson, Simpson, Gini, Observed and Chao1. These indices do not take into account the phylogeny of the taxa identified in sequencing. Phylogenetic diversity (Faith’s PD) uses phylogenetic distance to calculate the diversity of a given sample.
 
