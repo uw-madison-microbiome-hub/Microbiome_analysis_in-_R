@@ -281,7 +281,7 @@ Another option
 ```
 library(pheatmap)
 
-plot_taxa_heatmap(physeq,
+p <- plot_taxa_heatmap(physeq,
                   subset.top = 25,
                   VariableA = c("BodySite","Subject"),
                   transformation = "log10",
@@ -290,6 +290,11 @@ plot_taxa_heatmap(physeq,
                   show_colnames = F,
                   heatcolors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),
                 )
+#the plot is stored here
+p$plot
+
+# table used for plot is here
+p$tax_tab[1:3,1:3]
 ```
 
 Alternative option with more control and options
