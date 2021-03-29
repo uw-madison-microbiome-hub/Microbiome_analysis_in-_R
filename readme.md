@@ -176,14 +176,14 @@ In the code, the text before = is what the file will be called in R. Make this s
 
 Convert qiime artifacts directly to phyloseq
 ```
-phy <- qza_to_phyloseq("table.qza", "rooted-tree.qza", "taxonomy.qza","Moving Pictures sample-metadata (QIIME 2 2018.4) - sample-metadata(1).tsv")
+phy <- qza_to_phyloseq("table.qza", "rooted-tree.qza", "taxonomy.qza","sample_metadata.tsv")
 ```
 Or if you want to have more control over the object adding more or less data, you can make it yourself as below:
 ```
 # Importing ASVs abundance file
 ASVs <- read_qza("table.qza")
 # Importing metadata
-metadata <- read.table("Moving Pictures sample-metadata (QIIME 2 2018.4) - sample-metadata(1).tsv", , sep='\t', header=T, row.names=1, comment="")
+metadata <- read.table("sample_metadata.tsv", , sep='\t', header=T, row.names=1, comment="")
 metadata <- metadata[-1,] # remove the second line that specifies the data type
 # Importing tree
 tree <- read_qza("rooted-tree.qza")
