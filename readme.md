@@ -274,7 +274,22 @@ ggsave("barplot_family.png", b.plot,  width = 14, height = 10, dpi = 300)
 These are a good alternative to barplots
 
 ```
-Microbiome.Heatmap(FEATURES=Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, METADATA=metadata, NTOPFEATURES = 30, ROWCLUSTER = "abundance", CATEGORY="BodySite")
+taxa_heatmap(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "BodySite")
+```
+
+Another option
+```
+library(pheatmap)
+
+plot_taxa_heatmap(physeq,
+                  subset.top = 25,
+                  VariableA = c("BodySite","Subject"),
+                  transformation = "log10",
+                  cluster_rows = T,
+                  cluster_cols = F,
+                  show_colnames = F,
+                  heatcolors = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100),
+                )
 ```
 
 Alternative option with more control and options
