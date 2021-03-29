@@ -435,6 +435,16 @@ generate a csv file of the richness estimates using
 richness <- estimate_richness(physeq_rarefy,measures=c("Shannon", "simpson", "Observed"))
 write.csv(richness, file = "alpha_div.csv")
 ```
+Creating a plot with one index and stats
+```
+plot_diversity_stats(physeq, group = "BodySite", 
+                     index = "diversity_shannon", 
+                     group.order = c("gut","tongue","right palm", "left palm"),                      
+                     group.colors = mycols,
+                     label.format="p.format",
+                     stats = TRUE) 
+                     + ylab("Shannon Diversity") + xlab("")
+```
 
 In addition to plotting you can also run anova test using the following option (it will also write the richness ina seperate csv file)
 ```
