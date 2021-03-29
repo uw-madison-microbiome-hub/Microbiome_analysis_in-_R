@@ -332,6 +332,78 @@ ggstripchart(physeq_df, "BodySite", "Abundance",
              palette = "jco") + rremove("x.text")
 ```
 
+Plot relative abundance of top taxa
+
+```
+plot_taxa_boxplot(physeq,
+                  taxonomic.level = "Phylum",
+                  top.otu = 6, 
+                  group = "BodySite",
+                  add.violin= FALSE,
+                  title = "Top three family", 
+                  keep.other = FALSE,
+                  group.order = c("gut","tongue","right palm", "left palm"),
+                  group.colors = mycols,
+                  dot.size = 2) + theme_biome_utils()
+```
+
+plotting taxa specified by the user
+
+```
+physeq.f <- format_to_besthit(physeq)
+
+top_taxa(physeq.f, 5)
+
+select.taxa <- c("d29fe3c70564fc0f69f2c03e0d1e5561:k__Bacteria", "154709e160e8cada6bfb21115acc80f5:ovatus")
+
+p <- plot_listed_taxa(physeq.f, select.taxa, 
+                 group= "BodySite",
+                 group.order = c("gut","tongue","right palm", "left palm"),
+                 group.colors = mycols,
+                 add.violin = F,
+                 dot.opacity = 0.25,
+                 box.opacity = 0.25,
+                 panel.arrange= "grid") + ylab("Relative abundance") + scale_y_continuous(labels = scales::percent)
+
+
+# Adding statistical test with ggpubr::stat_compare_means()
+
+# If more than two variables
+comps <- make_pairs(sample_data(physeq.f)$BodySite)
+print(comps)
+
+p <- p + stat_compare_means(
+  comparisons = comps,
+  label = "p.format",
+  tip.length = 0.05,
+  method = "wilcox.test") 
+
+p + scale_y_continuous(labels = scales::percent)
+```
+
+Plot top four genera
+
+```
+physeq.genus <- aggregate_taxa(physeq, "Genus")
+top_four <- top_taxa(physeq.genus, 4)
+top_four
+
+top_genera <- plot_listed_taxa(physeq.genus, top_four, 
+                 group= "BodySite",
+                 group.order = c("gut","tongue","right palm", "left palm"),
+                 group.colors = mycols,
+                 add.violin = F,
+                 dot.opacity = 0.25,
+                 box.opacity = 0.25,
+                 panel.arrange= "wrap")
+top_genera
+
+top_genera + stat_compare_means(
+                   comparisons = comps,
+                   label = "p.format",
+                   tip.length = 0.05,
+                   method = "wilcox.test")
+```
 ## 8 Alpha diversities
 Alpha diversity measures are used to identify within individual taxa richness and evenness. The commonly used metrics/indices are Shannon, Inverse Simpson, Simpson, Gini, Observed and Chao1. These indices do not take into account the phylogeny of the taxa identified in sequencing. Phylogenetic diversity (Faith’s PD) uses phylogenetic distance to calculate the diversity of a given sample.
 
@@ -512,6 +584,43 @@ p.core <- plot_core(physeq.gut.rel2.f,
 
 p.core + theme(axis.text.y = element_text(face="italic"))
 ```
+
+### Abundance-Prevalence relationship
+
+```
+library(ggrepel)
+
+physeq_comp <- microbiome::transform(physeq, "compositional")
+# select gut
+physeq_comp_gut <- subset_samples(physeq_comp, BodySite=="gut")
+
+physeq_comp_gut <- core(physeq_comp_gut,detection = 0.0001, prevalence = 0.50) # reduce size for example
+
+physeq_comp_gut <- format_to_besthit(physeq_comp_gut)
+
+set.seed(163897)
+prevalance <- plot_abund_prev(physeq_comp_gut, 
+                       label.core = TRUE,
+                       color = "Phylum", # NA or "blue"
+                       mean.abund.thres = 0.01,
+                       mean.prev.thres = 0.99,
+                       dot.opacity = 0.7,
+                       label.size = 3,
+                       label.opacity = 1.0,
+                       nudge.label=-0.15,
+                       bs.iter=999, # increase for actual analysis e.g. 999
+                       size = 20, # increase to match your nsamples(asv_ps)
+                       replace = TRUE,
+                       label.color="#5f0f40") 
+prevelance <- prevalance + 
+  geom_vline(xintercept = 0.95, lty="dashed", alpha=0.7) + 
+  geom_hline(yintercept = 0.01,lty="dashed", alpha=0.7) +
+  scale_color_brewer(palette = "Dark2")
+
+prevelance
+```
+
+
 ## 11. Tree plot
 
 Subset the data to top 50 taxa for beteer visualization
