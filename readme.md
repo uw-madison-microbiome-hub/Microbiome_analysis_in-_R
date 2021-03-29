@@ -421,7 +421,14 @@ phyloseq also allows you to easily plot alpha diversity, both by sample and by g
 plot_richness(physeq_rarefy, measures="Shannon")
 ```
 ```
-plot_richness(physeq_rarefy, x="BodySite", measures=c("Shannon", "simpson", "Observed"), color = "BodySite") + geom_boxplot() + theme_bw()
+a.div <- plot_richness(physeq_rarefy, x="BodySite", measures=c("Shannon", "simpson", "Observed"), color = "BodySite") + geom_boxplot() + theme_bw()
+
+# adding statistical support
+a.div + stat_compare_means(
+  comparisons = comps,
+  label = "p.format",
+  tip.length = 0.05,
+  method = "wilcox.test")
 ```
 generate a csv file of the richness estimates using
 ```
