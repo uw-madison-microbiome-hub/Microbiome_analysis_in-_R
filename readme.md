@@ -207,6 +207,7 @@ Summarizing the phyloseq object to check for feature of data
 ```
 # check for features of data  
 summarize_phyloseq(physeq)
+print_ps(physeq)
 summary(sample_sums(physeq))
 ```
 Accessing the phyloseq object
@@ -224,6 +225,12 @@ sample_variables(physeq)
 otu_table(physeq)[1:5, 1:5]  
 
 tax_table(physeq)[1:5, 1:4]
+```
+
+Distribution of reads
+
+```
+plot_read_distribution(physeq, groups = "BodySite", plot.type = "density") + theme_biome_utils()
 ```
 
 Rarefy the phyloseq object to even depth prior various analysis
@@ -252,13 +259,13 @@ plot_composition(physeq.fam.rel,sample.sort = "BodySite", x.label = "SampleID") 
 ```
 Another option fot barplots 
 ```
-Microbiome.Barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, NTOPLOT=10, CATEGORY="BodySite")
+taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "BodySite")
 
 # To make it interactive
-ggplotly(Microbiome.Barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, NTOPLOT=10, CATEGORY="BodySite"))
+ggplotly(taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "BodySite"))
 
 # save the plot
-b.plot <- Microbiome.Barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, NTOPLOT=10, CATEGORY="BodySite")
+b.plot <- taxa_barplot(Summarize.Taxa(ASVs$data, as.data.frame(tax_table))$Family, metadata, "BodySite")
 
 ggsave("barplot_family.png", b.plot,  width = 14, height = 10, dpi = 300)
 ```
