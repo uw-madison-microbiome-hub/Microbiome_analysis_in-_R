@@ -253,8 +253,14 @@ sessionInfo()
 Barplots are a one way of visualising the composition of your samples.
 At Family level and relative abundance
 ```
-physeq_fam <- microbiome::aggregate_top_taxa(physeq, "Family", top = 10)
+physeq_fam <- microbiome::aggregate_rare(physeq, level = "Family", detection = 50/100, prevalence = 70/100)
+
 physeq.fam.rel <- microbiome::transform(physeq_fam, "compositional")
+
+physeq.fam.rel <- physeq %>%
+  aggregate_rare(level = "Family", detection = 50/100, prevalence = 70/100) %>%
+  microbiome::transform(transform = "compositional")
+
 plot_composition(physeq.fam.rel,sample.sort = "BodySite", x.label = "SampleID") + theme(legend.position = "bottom") + scale_fill_brewer("Family", palette = "Paired") + theme_bw() + theme(axis.text.x = element_text(angle = 90)) + ggtitle("Relative abundance") + theme(legend.title = element_text(size = 18))
 ```
 Another option fot barplots 
