@@ -594,7 +594,7 @@ print(as.data.frame(permanova$aov.tab)["BodySite", "Pr(>F)"])
 More infromation can be found by typing ```?betadisper```
 ```
 #Pair - wise stats
-dist <- vegdist(t(otu))
+dist <- vegdist(t(otu), "bray")
 anova(betadisper(dist, meta$BodySite))
 
 permutest(betadisper(dist, meta$BodySite), pairwise = TRUE)
