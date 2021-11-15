@@ -341,6 +341,8 @@ ggstripchart(physeq_df, "BodySite", "Abundance",
 Plot relative abundance of top taxa
 
 ```
+mycols <- c("coral", "steelblue2", "slategray2", "olivedrab")
+
 plot_taxa_boxplot(physeq,
                   taxonomic.level = "Phylum",
                   top.otu = 6, 
