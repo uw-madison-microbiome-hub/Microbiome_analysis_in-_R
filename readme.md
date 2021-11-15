@@ -806,14 +806,3 @@ ggplot(sigtabgen, aes(y=Genus, x=log2FoldChange, color=Phylum)) +
   theme(axis.text.x = element_text(angle = -90, hjust = 0, vjust=0.5))
 ```
 
-#### 13.1 Alternative DeSeq using microbiomeSeq
-subsetting the data to genus level
-```
-physeq_genus <- taxa_level(physeq_rarefy, "Genus")
-
-deseq_sig <- differential_abundance(physeq_genus, grouping_column = "BodySite", output_norm = "log-relative", pvalue.threshold = 0.05, lfc.threshold = 0, filename = T)
-```
-To generate a plot showing differentially abundant taxa between among compared groups, corresponding adjusted p-values and rank of importance as detected by random forest classifier.
-```
-plot_signif(deseq_sig$plotdata, top.taxa = 10)
-```
