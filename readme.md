@@ -491,8 +491,12 @@ a.div <- plot_richness(physeq_rarefy, x="BodySite", measures=c("Shannon", "simps
 # adding statistical support
 a.div + stat_compare_means(
   comparisons = comps,
-  label = "p.format",
+  label = "p.signif",
   tip.length = 0.05,
+  symnum.args = list(
+    cutpoints = c(0, 0.0001, 0.001, 0.01, 0.05, 1), 
+    symbols = c("xxxx", "***", "**", "*", "ns")
+  ),
   method = "wilcox.test")
 ```
 generate a csv file of the richness estimates using
