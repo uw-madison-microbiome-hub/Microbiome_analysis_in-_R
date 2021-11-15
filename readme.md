@@ -515,47 +515,6 @@ plot_diversity_stats(physeq, group = "BodySite",
                      + ylab("Shannon Diversity") + xlab("")
 ```
 
-
-### 8.1 Alpha statistics
-
-Overall, for alpha-diversity:
-
-* **ANOVA, t-test, or general linear models** with the normal distribution are used when the data is roughly normal
-* **Kruskal-Wallis, Wilcoxon rank sum test, or general linear models** with another distribution are used when the data is not normal
-
-To test for normalcy statistically, we can run the Shapiro-Wilk test of normality.
-```
-shannon <- estimate_richness(physeq,measures=c("Shannon"))
-shapiro.test(shannon$Shannon)
-hist(shannon$Shannon, main="Shannon diversity", xlab="", breaks=10)
-```
-
-#### 8.1.1 Normally distributed metrics
-we will use Shannon’s diversity as an example. we will test BodySite, which is a categorical variable with more than 2 levels. Thus, we run ANOVA. If age were only two levels, we could run a t-test
-
-```
-#Run the ANOVA and save it as an object
-aov.shannon.bodysite <- aov(shannon$Shannon ~ BodySite, data=metadata)
-#Call for the summary of that ANOVA, which will include P-values
-summary(aov.shannon.bodysite)
-```
-To do all the pairwise comparisons between groups and correct for multiple comparisons, we run Tukey’s honest significance test of our ANOVA.
-
-```
-TukeyHSD(aov.shannon.bodysite)
-```
-
-#### 8.1.2 Non-normally distributed metrics
-we use Kruskal-Wallis (non-parametric equivalent of ANOVA). If we have only two levels, we would run Wilcoxon rank sum test (non-parametric equivalent of t-test)
-
-```
-kruskal.test(shannon$Shannon ~ BodySite, data=metadata)
-```
-We can test pairwise within the age groups with Wilcoxon Rank Sum Tests. This test has a slightly different syntax than our other tests
-```
-pairwise.wilcox.test(shannon$Shannon, metadata$BodySite, p.adjust.method="fdr")
-```
-
 ## 9. Beta diversity metrices
 Beta-diversity: Measures for differences between samples from different groups to identify if there are differences in the overall community composition and structure.
 
