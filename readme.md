@@ -511,8 +511,7 @@ plot_diversity_stats(physeq, group = "BodySite",
                      group.order = c("gut","tongue","right palm", "left palm"),                      
                      group.colors = mycols,
                      label.format="p.format",
-                     stats = TRUE) 
-                     + ylab("Shannon Diversity") + xlab("")
+                     stats = TRUE) + ylab("Shannon Diversity") + xlab("")
 ```
 
 ## 9. Beta diversity metrices
