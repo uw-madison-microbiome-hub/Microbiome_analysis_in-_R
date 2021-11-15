@@ -515,10 +515,6 @@ plot_diversity_stats(physeq, group = "BodySite",
                      + ylab("Shannon Diversity") + xlab("")
 ```
 
-In addition to plotting you can also run anova test using the following option (it will also write the richness ina seperate csv file)
-```
-plot_anova_diversity(physeq, method = c("richness", "simpson", "shannon"), grouping_column = "BodySite", pValueCutoff = 0.05)
-```
 
 ### 8.1 Alpha statistics
 
