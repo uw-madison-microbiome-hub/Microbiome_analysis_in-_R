@@ -255,6 +255,9 @@ At Family level and relative abundance
 ```
 physeq_fam <- microbiome::aggregate_rare(physeq, level = "Family", detection = 50/100, prevalence = 70/100)
 
+# Alternative
+physeq_fam <- aggregate_top_taxa2(physeq, level = "Family", top = 25)
+
 physeq.fam.rel <- microbiome::transform(physeq_fam, "compositional")
 
 physeq.fam.rel <- physeq %>%
@@ -547,6 +550,11 @@ permanova <- adonis(t(otu) ~ BodySite, data = meta, permutations=99, method = "b
 
 #P-value
 print(as.data.frame(permanova$aov.tab)["BodySite", "Pr(>F)"])
+
+# adonis2
+permanova <- adonis2(t(otu) ~ BodySite, data = meta, permutations=99, method = "bray")
+permanova
+capture.output(permanova, file = "permanova.txt")
 ```
 #### 9.4 Checking the homogeneity condition
 More infromation can be found by typing ```?betadisper```
@@ -728,43 +736,30 @@ Note: For co-occurrence networks of OTUs, I suggest trying Gephi or Cytoscape
 
 ## 13. Differential abundance testing
 
-DeSeq2 to test for differential abundance between categories
+Lefse to test for differential abundance between categories
 
 ```
-#Convert phyloseq object ot DeSeq
-bsdds <- phyloseq_to_deseq2(physeq_rarefy, ~ BodySite)
-gm_mean <- function(x, na.rm=TRUE){
-  exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
-}
-geoMeans <- apply(counts(bsdds), 1, gm_mean)
-bsdds <- estimateSizeFactors(bsdds, geoMeans = geoMeans)
-# DeSeq function tests for differential abundance 
-bsdds <- DESeq(bsdds, test="Wald", fitType="parametric")
+# Install microbiome marker package
+BiocManager::install("microbiomeMarker")
+# activate microbiome marker package 
+library(microbiomeMarker)
 
-# Results function call creates a table of the results of the tests
-res <- results(bsdds, cooksCutoff = FALSE)
-alpha <- 0.01
-sigtab <- res[which(res$padj < alpha), ]
-sigtab <- cbind(as(sigtab, "data.frame"), as(tax_table(physeq_rarefy)[rownames(sigtab), ], "matrix"))
-head(sigtab)
+# Differential abundance using lefse
+lefse <- run_lefse(physeq,
+                  wilcoxon_cutoff = 0.01,
+                  norm = "CPM",
+                  group = "BodySite",
+                  kw_cutoff = 0.01,
+                  multigrp_strat = TRUE,
+                  lda_cutoff = 4
+)
 
-# Cleaning up the table a little for legibility
-posigtab <- sigtab[sigtab[, "log2FoldChange"] > 0, ]
-posigtab <- posigtab[, c("baseMean", "log2FoldChange", "lfcSE", "padj", "Phylum", "Class", "Family", "Genus")]
 
-# Bar plot showing the log2-fold-change, showing Genus and Phylum. Uses some ggplot2 commands
-sigtabgen <- subset(sigtab, !is.na(Genus))
-# Phylum order
-x <- tapply(sigtabgen$log2FoldChange, sigtabgen$Phylum, function(x) max(x))
-x <- sort(x, TRUE)
-sigtabgen$Phylum = factor(as.character(sigtabgen$Phylum), levels=names(x))
-# Genus order
-x <- tapply(sigtabgen$log2FoldChange, sigtabgen$Genus, function(x) max(x))
-x <- sort(x, TRUE)
-sigtabgen$Genus = factor(as.character(sigtabgen$Genus), levels=names(x))
-ggplot(sigtabgen, aes(y=Genus, x=log2FoldChange, color=Phylum)) + 
-  geom_vline(xintercept = 0.0, color = "gray", size = 0.5) +
-  geom_point(size=6) + 
-  theme(axis.text.x = element_text(angle = -90, hjust = 0, vjust=0.5))
+head(marker_table(lefse))
+
+# bar plot
+plot_ef_bar(lefse)
+# dot plot
+plot_ef_dot(lefse)
 ```
 
